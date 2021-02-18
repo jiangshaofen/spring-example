@@ -31,7 +31,8 @@
   
     <modules>
 		<module>spring</module>
-	</modules>
+		<module>spring-quartz</module>
+    </modules>
 	
     <repositories>
 		<repository>
