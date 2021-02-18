@@ -35,6 +35,7 @@
 		<module>spring-security</module>
 		<module>spring-mybatis-1</module>
 		<module>spring-mybatis-2</module>
+		<module>spring-mybatis-3</module>
     </modules>
 	
     <repositories>
