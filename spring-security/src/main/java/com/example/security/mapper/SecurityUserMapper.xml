@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.example.security.mapper.SecurityUserMapper">
+	<resultMap id="BaseResultMap"
+		type="com.example.security.domain.SecurityUser">
+		<id column="uid" jdbcType="VARCHAR" property="uid" />
+		<result column="username" jdbcType="VARCHAR"
+			property="username" />
+		<result column="password" jdbcType="VARCHAR"
+			property="password" />
+		<result column="benabled" jdbcType="INTEGER"
+			property="benabled" />
+		<result column="sphone" jdbcType="VARCHAR" property="sphone" />
+		<result column="dcreatedate" jdbcType="DATE"
+			property="dcreatedate" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		uid, username, password, benabled, sphone, dcreatedate
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from security_user
+		where uid = #{uid,jdbcType=VARCHAR}
+	</select>
+	
+	<!-- 根据需要手动添加，重新生成时被覆盖 -->
+	<select id="selectByUserName" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from security_user
+		where username = #{username,jdbcType=VARCHAR}
+	</select>
+	
+	
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from security_user
+		where uid = #{uid,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert"
+		parameterType="com.example.security.domain.SecurityUser">
+		insert into security_user (uid, username, password,
+		benabled, sphone, dcreatedate
+		)
+		values (#{uid,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR},
+		#{password,jdbcType=VARCHAR},
+		#{benabled,jdbcType=INTEGER}, #{sphone,jdbcType=VARCHAR}, #{dcreatedate,jdbcType=DATE}
+		)
+	</insert>
+	<insert id="insertSelective"
+		parameterType="com.example.security.domain.SecurityUser">
+		insert into security_user
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="uid != null">
+				uid,
+			</if>
+			<if test="username != null">
+				username,
+			</if>
+			<if test="password != null">
+				password,
+			</if>
+			<if test="benabled != null">
+				benabled,
+			</if>
+			<if test="sphone != null">
+				sphone,
+			</if>
+			<if test="dcreatedate != null">
+				dcreatedate,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="uid != null">
+				#{uid,jdbcType=VARCHAR},
+			</if>
+			<if test="username != null">
+				#{username,jdbcType=VARCHAR},
+			</if>
+			<if test="password != null">
+				#{password,jdbcType=VARCHAR},
+			</if>
+			<if test="benabled != null">
+				#{benabled,jdbcType=INTEGER},
+			</if>
+			<if test="sphone != null">
+				#{sphone,jdbcType=VARCHAR},
+			</if>
+			<if test="dcreatedate != null">
+				#{dcreatedate,jdbcType=DATE},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="com.example.security.domain.SecurityUser">
+		update security_user
+		<set>
+			<if test="username != null">
+				username = #{username,jdbcType=VARCHAR},
+			</if>
+			<if test="password != null">
+				password = #{password,jdbcType=VARCHAR},
+			</if>
+			<if test="benabled != null">
+				benabled = #{benabled,jdbcType=INTEGER},
+			</if>
+			<if test="sphone != null">
+				sphone = #{sphone,jdbcType=VARCHAR},
+			</if>
+			<if test="dcreatedate != null">
+				dcreatedate = #{dcreatedate,jdbcType=DATE},
+			</if>
+		</set>
+		where uid = #{uid,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="com.example.security.domain.SecurityUser">
+		update security_user
+		set username = #{username,jdbcType=VARCHAR},
+		password = #{password,jdbcType=VARCHAR},
+		benabled = #{benabled,jdbcType=INTEGER},
+		sphone = #{sphone,jdbcType=VARCHAR},
+		dcreatedate = #{dcreatedate,jdbcType=DATE}
+		where uid = #{uid,jdbcType=VARCHAR}
+	</update>
+</mapper>

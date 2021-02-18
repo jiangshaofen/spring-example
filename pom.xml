@@ -32,6 +32,7 @@
     <modules>
 		<module>spring</module>
 		<module>spring-quartz</module>
+		<module>spring-security</module>
     </modules>
 	
     <repositories>
