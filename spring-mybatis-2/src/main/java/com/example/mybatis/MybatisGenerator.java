@@ -16,7 +16,7 @@ import org.mybatis.generator.internal.DefaultShellCallback;
 /**
  * MyBatis代码生成。
  * 
- * @author NJJH
+ * @author jiang
  *
  */
 public class MybatisGenerator {
