@@ -34,6 +34,7 @@
 		<module>spring-quartz</module>
 		<module>spring-security</module>
 		<module>spring-mybatis-1</module>
+		<module>spring-mybatis-2</module>
     </modules>
 	
     <repositories>

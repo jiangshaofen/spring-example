@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+		<!-- MBG配置中的其他几个元素，基本上都是<context>的子元素，这些子元素（有严格的配置顺序）包括：
+		
+		<property> (0个或多个)
+		<plugin> (0个或多个)
+		<commentGenerator> (0个或1个)
+		<jdbcConnection> (1个)
+		<javaTypeResolver> (0个或1个)
+		<javaModelGenerator> (1个)
+		<sqlMapGenerator> (0个或1个)
+		<javaClientGenerator> (0个或1个)
+		<table> (1个或多个) -->
+		
+	<!--导入属性配置 -->
+	<properties resource="jdbc.properties"></properties>
+
+	<!--指定特定数据库的jdbc驱动jar包的位置 -->
+	<classPathEntry location="${jdbc.driverLocation}" />
+
+   <!-- defaultModelType属性,这个属性的值会影响实体类(或叫domain类,model类)的生成。 
+		这个属性用于设置产生的模型类型。模型类型定义了MBG如何去产生模型类。对于一些模型类型,MBG会为每一张表产生单独的实体类,
+		而其他的模型类型,MBG会依据表的结构产生一些不同的实体类。这个属性支持以下三个值:
+		conditional	这是默认值,这个模型与hierarchical模型相似,除了如果一个实体类只包含一个字段,则不会单独生成此实体类。
+		因此,如果一个表的主键只有一个字段,那么不会为该字段生成单独的实体类,会将该字段合并到基本实体类中。
+		flat 该模型为每一张表只生成一个实体类。这个实体类包含表中的所有字段。一般使用这个模型就够了。
+		hierarchical 如果表有主键,那么该模型会产生一个单独的主键实体类,如果表还有BLOB字段，则会为表生成一个包含所有BLOB字段的单独的实体类,
+		然后为所有其他的字段生成一个单独的实体类。MBG会在所有生成的实体类之间维护一个继承关系。显然这个模型比较复杂。 -->
+ 
+ 	<!-- targetRuntime:此属性用于指定生成的代码的运行时环境。该属性支持以下可选值：
+		MyBatis3:*这是默认值*
+		MyBatis3Simple
+		Ibatis2Java2
+		Ibatis2Java5 一般情况下使用默认值即可， -->
+		
+	<context id="default" defaultModelType="flat" targetRuntime="MyBatis3" >
+		
+		<!-- 生成的pojo，将implements Serializable-->    
+        <plugin type="org.mybatis.generator.plugins.SerializablePlugin"></plugin> 
+        <!-- 插入成功后返回ID -->
+        <!-- <plugin type="cn.doity.common.generator.plugin.InsertAndReturnKeyPlugin"/> -->
+        <!-- 分页查询功能 -->
+        <!-- <plugin type="cn.doity.common.generator.plugin.SelectByPagePlugin"/> -->
+        <!--  生成带有for update后缀的select语句插件 -->
+        <!-- <plugin type="cn.doity.common.generator.plugin.SelectForUpdatePlugin"/> -->
+ 
+        <commentGenerator>    
+            <!-- 是否去除自动生成的注释 true：是 ： false:否 -->    
+            <property name="suppressAllComments" value="true" />
+            <!-- optional，旨在创建class时，对注释进行控制 -->
+            <property name="suppressDate" value="true" /> 
+        </commentGenerator>    
+
+		<!--jdbc的数据库连接 -->
+		<jdbcConnection driverClass="${jdbc.driverClassName}" connectionURL="${jdbc.url}" userId="${jdbc.username}" password="${jdbc.password}">
+		</jdbcConnection>
+
+		 <!-- 默认false，把JDBC DECIMAL 和 NUMERIC 类型解析为 Integer，true，把JDBC DECIMAL 和 NUMERIC 类型解析为java.math.BigDecimal -->    
+		<javaTypeResolver>
+			<property name="forceBigDecimals" value="true" />
+		</javaTypeResolver>
+
+		<!-- Model模型生成器，用来生成含有主键key的类，记录类 以及查询Example类，生成易于使用的针对Model对象和XML配置文件 的代码。
+			targetProject 指定在该项目下所在的路径，
+			targetPackage 指定生成的model生成所在的包名  -->
+
+		<!-- 生成javaBean的包名和位置 -->
+		<javaModelGenerator targetProject="src" targetPackage="com.example.mybatis.domain">
+			<!-- 是否允许子包，即targetPackage.schemaName.tableName -->
+			<property name="enableSubPackages" value="false" />
+			<!-- 是否对类CHAR类型的列的数据进行trim操作 -->
+			<!-- <property name="trimStrings" value="true" /> -->
+			<!-- 设置所有实体类的基类。如果设置，需要使用类的全限定名称。并且如果MBG能够加载rootClass，那么MBG不会覆盖和父类中完全匹配的属性。匹配规则：
+				属性名完全相同
+				属性类型相同
+				属性有getter方法
+				属性有setter方法 -->
+			<!-- <propety name="rootClass" value="com.baosight.sm."/> -->
+		</javaModelGenerator>
+
+		<!-- 生成sql xml映射文件的包名和位置 -->
+		<sqlMapGenerator targetProject="src" targetPackage="com.example.mybatis.sql">
+			<property name="enableSubPackages" value="false" />
+		</sqlMapGenerator>
+
+		<!-- 生dao的包名和位置
+			ANNOTATEDMAPPER: 基于注解的Mapper接口及JavaModel，不含对应的XML映射文件;
+			MIXEDMAPPER:	  基于注解的Mapper接口及JavaModel，含有对应的XML映射文件；（XML和注解的混合形式，(上面这种情况中的)SqlProvider注解方法会被XML替代）;
+			XMLMAPPER:		 所有的方法都在XML中，接口调用依赖XML文件;  -->
+		<javaClientGenerator type="XMLMAPPER" targetProject="src" targetPackage="com.example.mybatis.mapper">
+			<property name="enableSubPackages" value="" />
+		</javaClientGenerator>
+
+		 <!-- 列出要生成代码的所有表，指定每个table表生成的策略，domainObjectName可省略，这里配置的是不生成Example文件 -->  
+		<table schema="sampledb" tableName="employee" domainObjectName="Employee"
+			selectByExampleQueryId="false"
+			enableSelectByExample="false"
+			enableCountByExample="false" 
+			enableUpdateByExample="false"
+			enableDeleteByExample="false" >
+			<!-- true：MyBatis Generator会使用数据库中实际的字段名字作为生成的实体类的属性名。
+　　				 false：默认值。如果设置为false,则MyBatis Generator会将数据库中实际的字段名字转换为Camel Case风格作为生成的实体类的属性名。 -->
+			<property name="useActualColumnNames" value="false" />
+			<generatedKey column="id" sqlStatement="MySql" identity="true" />
+		</table>
+		
+	</context>
+</generatorConfiguration>
