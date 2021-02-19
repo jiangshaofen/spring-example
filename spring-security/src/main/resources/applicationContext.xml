@@ -18,22 +18,16 @@
 	http://www.springframework.org/schema/tx/spring-tx.xsd
 	http://www.springframework.org/schema/mvc
 	http://www.springframework.org/schema/mvc/spring-mvc.xsd">  
-  
-    <!-- 激活spring的注解.  --> 
-    <context:annotation-config />   
-  
+ 
     <!-- 扫描注解组件并且自动的注入spring beans中.例如,他会扫描@Controller 和@Service下的文件.所以确保此base-package设置正确. -->  
-    <context:component-scan base-package="com.*" />  
-  
-    <!-- 配置注解驱动的Spring MVC Controller 的编程模型.注:次标签只在 Servlet MVC工作! -->
-    <mvc:annotation-driven /> 
-     
+    <context:component-scan base-package="**.service" />  
+ 
   	<!-- 加载数据库连接配置文件 -->
 	<context:property-placeholder location="classpath:jdbc.properties" />
 
 	<!-- 配置数据源 -->
 	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
-		<property name="driverClass" value="com.mysql.jdbc.Driver" />
+		<property name="driverClass" value="com.mysql.cj.jdbc.Driver" />
 		<property name="jdbcUrl" value="jdbc:mysql://localhost:3306/sampledb?characterEncoding=UTF-8&amp;useOldAliasMetadataBehavior=true&amp;useSSL=false&amp;serverTimezone=GMT%2B8" />
 		<property name="user" value="root" />
 		<property name="password" value="root" />
@@ -45,29 +39,28 @@
 		<property name="numHelperThreads" value="10" />
 		<property name="maxIdleTime" value="600" />
 	</bean>
-	
-    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">  
-        <property name="dataSource">  
-            <ref bean="dataSource" />  
-        </property>  
-    </bean>
 	 
 	 <!-- spring和MyBatis完美整合，不需要mybatis的配置映射文件 -->
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean"> 
-		<!--dataSource属性指定要用到的连接池--> 
+		<!--dataSource属性指定要用到的数据源--> 
 		<property name="dataSource" ref="dataSource"/> 
 		<!--configLocation属性指定mybatis的核心配置文件，可以不配置 --> 
-		<property name="configLocation" value="classpath:mybatis-Configuration.xml" /> 
+		<!-- <property name="configLocation" value="classpath:mybatis-Configuration.xml" />  -->
 		<!-- 自动扫描mapper.xml文件，**表示迭代查找，如果xml与接口定义在同一目录下，则可不用配置 -->
 		<!-- <property name="mapperLocations" value="classpath*:com/example/security/*.xml" /> -->
 	</bean> 
   
   	<!-- 使用接口映射器 -->
-	<!-- Mapper接口所在包名，Spring会自动查找其下的接口映射器，并自他们在SQL文件中定义过， 则动将它们创建成MapperFactoryBean，即动态的 
-		spring bean 可在service中直接注入接口bean -->
+	<!-- Mapper接口所在包名，Spring会自动查找其下的接口映射器，并自他们在SQL文件中定义过， 则动将它们创建成MapperFactoryBean，
+		即动态的  spring bean 可在service中直接注入接口bean -->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<!-- basePackage 属性是映射器接口文件的包路径，你可以使用分号或逗号 作为分隔符设置多于一个的包路径 -->
 		<property name="basePackage" value="com.example.security.mapper" />
+		<!-- 因为会自动装配 SqlSessionFactory 或 SqlSessionTemplate, 所以没有必要去指定 SqlSessionFactory 
+		或 SqlSessionTemplate, 因此可省略不配置；但是,如果你使用了一个以上的 DataSource，那么自动装配可能会失效。
+		这种情况下，你可以使用sqlSessionFactoryBeanName或sqlSessionTemplateBeanName属性来设置正确的 bean名称来使用 
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" /> 或 
+		<property name="sqlSessionTemplateBeanName" value="sqlSessionTemplate" /> -->
 	</bean>
 	
 	<!-- 以下全部是事务配置(Service层事务) -->
