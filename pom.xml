@@ -36,6 +36,8 @@
 		<module>spring-mybatis-1</module>
 		<module>spring-mybatis-2</module>
 		<module>spring-mybatis-3</module>
+		<module>spring-mvc-1</module>
+		<module>spring-mvc-2</module>
     </modules>
 	
     <repositories>
