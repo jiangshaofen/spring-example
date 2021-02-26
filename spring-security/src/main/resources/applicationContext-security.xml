@@ -95,6 +95,7 @@
   		<security:intercept-url pattern="/main/common" access="hasAnyRole('ROLE_USER','ROLE_ADMIN')"/>  
         <security:intercept-url pattern="/auth/denied" access="hasRole('ROLE_ADMIN')"/>
         <security:intercept-url pattern="/main/admin" access="hasRole('ROLE_ADMIN')"/>
+        <security:intercept-url pattern="/main/user" access="hasRole('ROLE_USER')"/>
        
         <!-- 指定登陆认证成功后，用户访问未授权的 URL 将跳转的 URL ，报 403 错误-->
         <security:access-denied-handler error-page="/auth/error"/>

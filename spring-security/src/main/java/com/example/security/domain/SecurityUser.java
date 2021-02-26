@@ -12,9 +12,11 @@ public class SecurityUser implements Serializable {
 
     private Integer benabled;
 
-    private String sphone;
+    private String role;
 
-    private Date dcreatedate;
+    private String phone;
+
+    private Date createdate;
 
     private static final long serialVersionUID = 1L;
 
@@ -50,19 +52,27 @@ public class SecurityUser implements Serializable {
         this.benabled = benabled;
     }
 
-    public String getSphone() {
-        return sphone;
+    public String getRole() {
+        return role;
     }
 
-    public void setSphone(String sphone) {
-        this.sphone = sphone;
+    public void setRole(String role) {
+        this.role = role;
     }
 
-    public Date getDcreatedate() {
-        return dcreatedate;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setDcreatedate(Date dcreatedate) {
-        this.dcreatedate = dcreatedate;
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public Date getCreatedate() {
+        return createdate;
+    }
+
+    public void setCreatedate(Date createdate) {
+        this.createdate = createdate;
     }
 }

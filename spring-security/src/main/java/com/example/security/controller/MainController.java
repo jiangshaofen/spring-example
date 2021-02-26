@@ -35,7 +35,16 @@ public class MainController {
     public String getAadminPage() {
         logger.debug("Received request to show admin page");
         return "admin";
-  
-    }  
-  
+    }
+    
+    /** 
+     * 跳转到user页面
+     *  
+     * @return
+     */   
+    @RequestMapping(value = "/user", method = RequestMethod.GET)
+    public String getUserPage() {
+        logger.debug("Received request to show user page");
+        return "user";
+    }
 }  
